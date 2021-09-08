@@ -66,9 +66,16 @@ const AppTabNavigator = () => {
       }}
     >
       <BottomTabNavigator.Screen
-        name="First Screen"
+        name="My Coins"
         component={FirstScreen}
         options={{
+          title: "My Coins",
+          headerTintColor: Colors.mainColor,
+          headerTitleStyle: {
+            fontSize: 20,
+            lineHeight: 20,
+            fontWeight: "600",
+          },
           tabBarIcon: ({ focused }) => (
             <View
               style={{
