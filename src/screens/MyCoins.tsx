@@ -68,6 +68,7 @@ const Item = ({ title, code, price, pricechange, iconlink }: ItemProps) => {
 };
 
 const MyCoins = ({ navigation, route }) => {
+  const [selectedId, setSelectedId] = useState(null);
   const [state, setState] = useState({
     data: DATA,
   });
@@ -84,7 +85,12 @@ const MyCoins = ({ navigation, route }) => {
   return (
     <StyledRoot>
       <SafeAreaView style={{ height: "100%" }}>
-        <FlatList data={state.data} renderItem={renderItem} />
+        <FlatList
+          data={state.data}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.code}
+          extraData={selectedId}
+        />
       </SafeAreaView>
     </StyledRoot>
   );

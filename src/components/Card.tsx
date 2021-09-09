@@ -23,7 +23,7 @@ const Title = styled.Text`
   height: 20px;
   left: 70px;
   top: 25px;
-  font-family: Montserrat;
+  /* font-family: Montserrat; */
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -37,7 +37,7 @@ const Code = styled.Text`
   left: 71px;
   top: 55px;
 
-  font-family: Montserrat;
+  /* font-family: Montserrat; */
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -68,9 +68,9 @@ const CurrentPrice = styled.Text`
   height: 20px;
   top: 24px;
   text-align: right;
-  padding-right: 20;
+  padding-right: 20px;
 
-  font-family: Montserrat;
+  /* font-family: Montserrat; */
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -86,9 +86,9 @@ const PriceChange = styled.Text`
   top: 55px;
 
   text-align: right;
-  padding-right: 20;
+  padding-right: 20px;
 
-  font-family: Montserrat;
+  /* font-family: Montserrat; */
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
