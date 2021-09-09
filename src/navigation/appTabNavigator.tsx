@@ -3,20 +3,15 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
-  Touch,
   GestureResponderEvent,
 } from "react-native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { Colors } from "../constants/index";
-import FirstScreen from "../screens/FirstScreen";
-import SecondScreen from "../screens/SecondScreen";
-import { Tab } from "react-native-elements";
+import MyCoins from "../screens/MyCoins";
 import ThirdScreen from "../screens/ThirdScreen";
-import FourthScreen from "../screens/FourthScreen";
 import FifthScreen from "../screens/FifthScreen";
 const BottomTabNavigator = createBottomTabNavigator();
 
@@ -67,7 +62,7 @@ const AppTabNavigator = () => {
     >
       <BottomTabNavigator.Screen
         name="My Coins"
-        component={FirstScreen}
+        component={MyCoins}
         options={{
           title: "My Coins",
           headerTintColor: Colors.mainColor,

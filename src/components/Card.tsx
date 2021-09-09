@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
 import { TouchableOpacity, Text } from "react-native";
-import bitcoin from "../../assets/bitcoin.png";
 import bitcoingraph from "../../assets/bitcoingraph.png";
 
 const StyledContainer = styled.View`
@@ -12,6 +11,7 @@ const StyledContainer = styled.View`
   background: #ffffff;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
   border-radius: 8px;
+  margin-top: 10px;
 
   justify-content: space-around;
   z-index: 0;
@@ -42,10 +42,6 @@ const Code = styled.Text`
   font-weight: 600;
   font-size: 12px;
   line-height: 12px;
-  /* identical to box height */
-
-  /* Text 3 */
-
   color: #6c757d;
 `;
 
@@ -59,7 +55,6 @@ const StyledImage = styled.Image`
 
 const StyledSnippetGraph = styled.Image`
   position: absolute;
-
   width: 50px;
   height: 30px;
   left: 50%;
@@ -81,8 +76,6 @@ const CurrentPrice = styled.Text`
   font-size: 15px;
   line-height: 20px;
 
-  /* Text 2 */
-
   color: #343a40;
 `;
 
@@ -103,29 +96,29 @@ const PriceChange = styled.Text`
   display: flex;
   align-items: center;
 
-  /* Green */
-
   color: #21bf73;
 `;
 
 type CardProps = {
   title: string;
   price: string;
-  picture: string;
   code: string;
+  iconlink: string;
   pricechange: string;
 };
 
-const Card = ({ title, code, price, pricechange }: CardProps) => (
-  <TouchableOpacity activeOpacity={0.7}>
-    <StyledContainer>
-      <StyledImage source={bitcoin} />
-      <StyledSnippetGraph source={bitcoingraph} />
-      <Title> {title} </Title>
-      <Code> {code} </Code>
-      <CurrentPrice> {price}</CurrentPrice>
-      <PriceChange> {pricechange} </PriceChange>
-    </StyledContainer>
-  </TouchableOpacity>
-);
+const Card = ({ title, code, price, pricechange, iconlink }: CardProps) => {
+  return (
+    <TouchableOpacity activeOpacity={0.7}>
+      <StyledContainer>
+        <StyledImage source={{ uri: iconlink }} />
+        <StyledSnippetGraph source={bitcoingraph} />
+        <Title> {title} </Title>
+        <Code> {code} </Code>
+        <CurrentPrice> {price}</CurrentPrice>
+        <PriceChange> {pricechange} </PriceChange>
+      </StyledContainer>
+    </TouchableOpacity>
+  );
+};
 export default Card;
