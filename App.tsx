@@ -1,25 +1,15 @@
 import React from "react";
 import "react-native-gesture-handler";
 import RootNavigator from "./src/navigation/index";
-// import * as Font from "expo-font";
-// import { useFonts, Montserrat_900Black } from "@expo-google-fonts/montserrat";
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
 
 export default function App() {
-  // let [fontsLoaded] = useFonts({
-  //   Montserrat_900Black,
-  // });
-
-  // (async () =>
-  //   await Font.loadAsync({
-  //     Montserrat: require("./src/fonts/Montserrat/MontserratBlack900.ttf"),
-  //     Poppins: require("./src/fonts/Montserrat/MontserratBlack900.ttf"),
-  //   }))().catch((e) => {
-  //   console.log(e);
-  // });
-
   return (
     <>
-      <RootNavigator />
+      <Provider store={store}>
+        <RootNavigator />
+      </Provider>
     </>
   );
 }

@@ -36,30 +36,6 @@ const StyledModalTitle = styled.Text`
 `;
 
 const AddNewCoinModal = ({ modalVisible, setModalVisible }) => {
-  const [loading, setLoading] = useState(false);
-  const [suggestionsList, setSuggestionsList] = useState(null);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const dropdownController = useRef(null);
-  const searchRef = useRef(null);
-
-  const getSuggestions = useCallback(async (q) => {
-    if (typeof q !== "string" || q.length < 3) {
-      setSuggestionsList(null);
-      return;
-    }
-    setLoading(true);
-    const response = await fetch("api.coincap.io/v2/assets");
-    const items = await response.json();
-    const suggestions = items.map((item) => ({
-      id: item.id,
-      title: item.name,
-      symbol: item.symbol,
-    }));
-    setSuggestionsList(suggestions);
-    setLoading(false);
-    console.log(suggestions);
-  }, []);
-
   return (
     <Modal
       animationType="slide"
