@@ -1,56 +1,34 @@
 import axios from "axios";
-import { backEndBaseUrl } from "../constants/Urls";
+import { ListOfCoins } from "../../constants/Urls";
 
-const userFormReducer = (state = {}, payload) => {
+const currencyDataReducer = (state = {}, payload) => {
     switch (payload.type) {
-        case "FETCH_FORMS":
-            return {
-                ...state,
-                formData: payload.formData,
-                isLoading: false,
 
-            };
-        case "CREATOR_DETAILS":
-            return {
-                ...state,
-                creatorId: payload.creatorId,
-
-            };
         case "START_LOADING":
             return {
                 ...state,
                 isLoading: true,
+                didNotLoad: false
             };
         case "STOP_LOADING":
             return {
                 ...state,
                 isLoading: false,
+                didNotLoad: false
             };
 
-        case "UPDATE_FORM":
-
-            return {
-
-                ...state,
-                formData: payload.updateformData,
-            };
-
-        case "EDIT_FORM":
-
+        case "GET_COIN_DATA":
             return {
                 ...state,
-                editForm: payload.formToEdit[0],
-                editFormId: payload.formToEdit[1]
-            };
+                coinListData: payload.coinListData,
 
-        case "RESET_FORM":
 
+            }
+        case "DATA_DID_NOT_LOAD":
             return {
                 ...state,
-                editForm: null,
-                editFormId: null
-            };
-
+                didNotLoad: true,
+            }
         default:
             return state;
 
@@ -58,45 +36,52 @@ const userFormReducer = (state = {}, payload) => {
 
 };
 
-export async function fetchUserForms(dispatch, getState) {
-
-    var userToken = getState().userTokenReducer.userToken;
-
-    if (userToken === undefined) {
-        userToken = window.sessionStorage.getItem("userToken");
-    }
-
-    dispatch({ type: "START_LOADING" });
-
-    const requestHeader = {
-        headers: {
-            Authorization: "Token " + userToken,
-        },
-
-    };
-
-    await axios
-        .get(backEndBaseUrl + "/creator/entry/", requestHeader)
-        .then((response) => {
-
-            dispatch({
-                type: "FETCH_FORMS",
-                formData: response.data
-            });
-        })
-        .catch((error) => {
-            console.log(error);
-            console.log("There was an error in the fetchUserForms reducer");
-        });
+// export async function fetchCoinListData(dispatch) {
 
 
+//     dispatch({ type: "START_LOADING" });
+
+//     const requestHeader = {
+//         headers: {
+//             // 'x-access-token': "coinranking7260b02357d69e9a20773f5b3c5ace568b894c0bef4655bd",
+//         },
+//         timeout: 30000,
+
+//     };
+
+//     await axios.get("https://api.coincap.io/v2/assets", requestHeader)
+//         .then((response) => {
+
+//             const items = response.data["data"]
+
+//             const intialcoindata = items.map((item) => ({
+//                 id: item.id,
+//                 symbol: item.symbol,
+//                 name: item.name
+//             }))
+
+//             dispatch({
+//                 type: "GET_COIN_DATA",
+//                 coinListData: intialcoindata
+//             });
+//         })
 
 
-    dispatch({ type: "STOP_LOADING" });
+//         .catch((error) => {
+//             console.log(error)
+//             dispatch({ type: "DATA_DID_NOT_LOAD" })
+
+//             console.log("There was an error getting coin Data");
+//         });
+
+//     // const response = await fetch("api.coincap.io/v2/assets").then(response => { console.log(response) }).catch(error => { console.log(error) })
+//     // const items = await response.json()
+
+//     dispatch({ type: "STOP_LOADING" });
 
 
 
-}
+// }
 
 
-export default userFormReducer;
+export default currencyDataReducer;

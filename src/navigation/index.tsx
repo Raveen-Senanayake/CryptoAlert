@@ -11,9 +11,23 @@ const MyTheme = {
   },
 };
 
-const RootNavigator = () => (
-  <NavigationContainer theme={MyTheme}>
-    <AppTabNavigator />
-  </NavigationContainer>
-);
+type Props = {
+  didNotLoad: boolean;
+  isLoading: boolean;
+};
+
+const RootNavigator = () => {
+  return (
+    <NavigationContainer theme={MyTheme}>
+      <AppTabNavigator />
+    </NavigationContainer>
+  );
+};
+
+// function mapStateToProps(state) {
+//   return {
+//     didNotLoad: state.currencyDataReducer.didNotLoad,
+//     isLoading: state.currencyDataReducer.isLoading,
+//   };
+// }
 export default RootNavigator;

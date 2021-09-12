@@ -4,7 +4,7 @@ import RootNavigator from "./src/navigation/index";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
 
-export default function App() {
+function App() {
   return (
     <>
       <Provider store={store}>
@@ -13,3 +13,5 @@ export default function App() {
     </>
   );
 }
+
+export default App;
