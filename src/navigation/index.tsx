@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import AppTabNavigator from "./appTabNavigator";
 
@@ -24,10 +24,4 @@ const RootNavigator = () => {
   );
 };
 
-// function mapStateToProps(state) {
-//   return {
-//     didNotLoad: state.currencyDataReducer.didNotLoad,
-//     isLoading: state.currencyDataReducer.isLoading,
-//   };
-// }
-export default RootNavigator;
+export default sRootNavigator;

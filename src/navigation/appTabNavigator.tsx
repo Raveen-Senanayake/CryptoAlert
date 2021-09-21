@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   GestureResponderEvent,
 } from "react-native";
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { Colors } from "../constants/index";
@@ -16,8 +15,18 @@ import FifthScreen from "../screens/FifthScreen";
 const BottomTabNavigator = createBottomTabNavigator();
 import AddNewCoinModal from "../components/AddNewCoinModal";
 import styled from "styled-components/native";
+import ChangeCurrencyModal from "../components/ChangeCurrencyModal";
+import { fiatList } from "../constants/fiatcurrencyData";
 
-const StyledModal = styled.Modal``;
+const StyledCurrencyButtonView = styled.View`
+  margin-right: 30%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
+  border-radius: 8px;
+
+  padding: 5px;
+`;
+
+const StyledText = styled.Text``;
 
 type Props = {
   children: any;
@@ -26,6 +35,12 @@ type Props = {
 
 const AppTabNavigator = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [changeCurrencyModal, setChangeCurrencyModal] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState({
+    code: "USD",
+    name: "US Dollar",
+    symbol: "$",
+  });
 
   const CustomTabBarButton = ({ children, onPress }: Props) => (
     <TouchableOpacity
@@ -50,6 +65,17 @@ const AppTabNavigator = () => {
       </View>
     </TouchableOpacity>
   );
+
+  const fiatListArray = [];
+
+  for (const [key, value] of Object.entries(fiatList)) {
+    const objectinput = {
+      code: value.code,
+      name: value.name,
+      symbol: value.symbol_native,
+    };
+    fiatListArray.push(objectinput);
+  }
 
   return (
     <>
@@ -80,6 +106,20 @@ const AppTabNavigator = () => {
               lineHeight: 20,
               fontWeight: "600",
             },
+            headerRight: () => (
+              <StyledCurrencyButtonView>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  onPress={() => {
+                    setChangeCurrencyModal(true);
+                  }}
+                >
+                  <StyledText style={{ color: Colors.mainColor }}>
+                    {selectedCurrency.code}
+                  </StyledText>
+                </TouchableOpacity>
+              </StyledCurrencyButtonView>
+            ),
             tabBarIcon: ({ focused }) => (
               <View
                 style={{
@@ -162,6 +202,12 @@ const AppTabNavigator = () => {
       <AddNewCoinModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
+        selectedCurrency={selectedCurrency}
+      />
+      <ChangeCurrencyModal
+        modalVisible={changeCurrencyModal}
+        setModalVisible={setChangeCurrencyModal}
+        setSelectedCurrency={setSelectedCurrency}
       />
     </>
   );
