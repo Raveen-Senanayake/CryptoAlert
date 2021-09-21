@@ -44,6 +44,7 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-ico-flags": "^3.3.1",
     "react-native-in-app-notification": "^3.1.0",
+    "react-native-internal-notification": "^1.0.6",
     "react-native-modal": "^13.0.0",
     "react-native-paper": "^4.9.2",
     "react-native-safe-area-context": "3.2.0",
