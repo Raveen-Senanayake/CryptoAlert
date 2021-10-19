@@ -1,10 +1,7 @@
-export const dispatchAddNewCard = (Data, newEntry, dispatch) => {
-  const tempNewData = [...Data];
+export const dispatchAddNewCard = (updatedCards, dispatch) => {
+  dispatch({ type: "UPDATE_DATA", updatedData: updatedCards });
+};
 
-  if (tempNewData.filter((e) => e.code === newEntry.code)) {
-    tempNewData.push(newEntry);
-  } else {
-  }
-
-  dispatch({ type: "UPDATE_DATA", updatedData: tempNewData });
+export const dispatchChangeGlobalCurrency = (newCurrency, dispatch) => {
+  dispatch({ type: "UPDATE_GLOBAL_CURRENCY", globalCurrency: newCurrency });
 };

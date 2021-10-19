@@ -1,5 +1,5 @@
 import React from "react";
-import { NotificationProvider } from "react-native-internal-notification";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import AppTabNavigator from "./appTabNavigator";
 
 const MyTheme = {
@@ -18,9 +18,9 @@ type Props = {
 
 const RootNavigator = () => {
   return (
-    <NotificationProvider> theme={MyTheme}>
+    <NavigationContainer theme={MyTheme}>
       <AppTabNavigator />
-    </NotificationProvider>
+    </NavigationContainer>
   );
 };
 

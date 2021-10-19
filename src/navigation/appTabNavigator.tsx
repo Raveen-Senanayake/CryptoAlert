@@ -9,14 +9,17 @@ import {
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { Colors } from "../constants/index";
-import MyCoins from "../screens/MyCoins";
+import MyCoins from "../screens/MyCoins.tsx";
 import ThirdScreen from "../screens/ThirdScreen";
-import FifthScreen from "../screens/FifthScreen";
+import NewsScreen from "../screens/NewsScreen";
 const BottomTabNavigator = createBottomTabNavigator();
 import AddNewCoinModal from "../components/AddNewCoinModal";
 import styled from "styled-components/native";
 import ChangeCurrencyModal from "../components/ChangeCurrencyModal";
-import { fiatList } from "../constants/fiatcurrencyData";
+import {
+  fiatList,
+  supportedCurrencyGecko,
+} from "../constants/fiatcurrencyData";
 
 const StyledCurrencyButtonView = styled.View`
   margin-right: 30%;
@@ -68,7 +71,7 @@ const AppTabNavigator = () => {
 
   const fiatListArray = [];
 
-  for (const [key, value] of Object.entries(fiatList)) {
+  for (const [key, value] of Object.entries(supportedCurrencyGecko)) {
     const objectinput = {
       code: value.code,
       name: value.name,
@@ -167,9 +170,17 @@ const AppTabNavigator = () => {
         />
 
         <BottomTabNavigator.Screen
-          name="news"
-          component={FifthScreen}
+          name="News Feed"
+          component={NewsScreen}
           options={{
+            title: "News Feed",
+            headerTintColor: Colors.mainColor,
+            headerTitleStyle: {
+              fontSize: 20,
+              lineHeight: 20,
+              fontWeight: "600",
+            },
+
             tabBarIcon: ({ focused }) => (
               <View
                 style={{

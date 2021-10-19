@@ -10,10 +10,14 @@ import {
   SafeAreaView,
 } from "react-native";
 import styled from "styled-components/native";
-import { fiatList } from "../constants/fiatcurrencyData";
+import {
+  fiatList,
+  supportedCurrencyGecko,
+} from "../constants/fiatcurrencyData";
 import Card from "../components/Card";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-
+import { dispatchChangeGlobalCurrency } from "../redux/reducer/reducerChangeStateFunctions";
+import { connect } from "react-redux";
 const StyledContainer = styled.View`
   height: 500px;
   width: 100%;
@@ -95,7 +99,7 @@ const StyledCurrencyNameText = styled.Text`
 
 const fiatListArray: any = [];
 
-for (const [key, value] of Object.entries(fiatList)) {
+for (const [key, value] of Object.entries(supportedCurrencyGecko)) {
   const objectinput = {
     code: value.code,
     name: value.name,
@@ -125,6 +129,8 @@ const ChangeCurrencyModal = ({
   modalVisible,
   setModalVisible,
   setSelectedCurrency,
+  dispatch,
+  ...props
 }) => {
   const [selectedId, setSelectedId] = useState(null);
   const [state, setState] = useState({
@@ -137,6 +143,7 @@ const ChangeCurrencyModal = ({
       name: item.name,
       symbol: item.symbol,
     });
+    dispatchChangeGlobalCurrency(item.code, dispatch);
     setModalVisible(false);
   };
 
@@ -182,6 +189,7 @@ const ChangeCurrencyModal = ({
                   renderItem={renderItem}
                   keyExtractor={(item) => item.code}
                   extraData={selectedId}
+                  showsVerticalScrollIndicator={false}
                 />
               </SafeAreaView>
             </StyledCurrenyContainer>
@@ -192,4 +200,8 @@ const ChangeCurrencyModal = ({
   );
 };
 
-export default ChangeCurrencyModal;
+function mapStateToProps(state) {
+  return {};
+}
+
+export default connect(mapStateToProps)(ChangeCurrencyModal);

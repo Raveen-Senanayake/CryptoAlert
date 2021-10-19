@@ -2,12 +2,14 @@ import React, { useState, useRef } from "react";
 import { Modal, TouchableOpacity, Image, TouchableWithoutFeedback, View } from "react-native";
 import styled from "styled-components/native";
 import { CoinData } from "../constants/currencyData"
-import { exchangeData } from "../constants/exchangeData"
+import { exchangeData, exchangeInfo } from "../constants/exchangeData"
 import DropDownPicker from 'react-native-dropdown-picker'
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import * as Animatable from 'react-native-animatable';
 import { connect } from "react-redux";
 import { dispatchAddNewCard } from "../redux/reducer/reducerChangeStateFunctions"
+import { FontAwesome } from '@expo/vector-icons';
+import { useNotification } from 'react-native-internal-notification';
 
 const StyledContainer = styled.View`
   height: 500px;
@@ -110,35 +112,32 @@ width: 225px;
 
 const StyledSubmitButton = styled.TouchableOpacity`
 display: flex;
-width: 80;
-height: 40;
+width: 80px;
+height: 40px;
 border-radius: 10px;
 padding: 10px;
 box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.2);
-left: 63;
+left: 63px;
 `;
 
 const StyledCancelButton = styled.TouchableOpacity`
 display: flex;
-width: 80;
-height: 40;
+width: 80px;
+height: 40px;
 border-radius: 10px;
 padding: 10px;
 box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.2);
-left: 53;
+left: 53px;
 `;
-
 
 
 const StyledSubmitText = styled.Text`
 color: white;
 text-align: center;
 justify-content: center;
-font-size: 14;
+font-size: 14px;
 font-weight: bold;
 `;
-
-
 
 const suggestions = CoinData.map((item) => (
   {
@@ -149,11 +148,11 @@ const suggestions = CoinData.map((item) => (
   }
 ));
 
-const exchangeSuggestions = exchangeData.map((item) => (
+const exchangeSuggestions = exchangeInfo.map((item) => (
   {
-    label: item.exchangename,
-    value: item.exchangename,
-    icon: () => < Image source={{ uri: item.exchangelogo }} style={{ height: 20, width: 20 }} />,
+    label: item.name,
+    value: item.name,
+    icon: () => < Image source={{ uri: item.image }} style={{ height: 20, width: 20 }} />,
   }
 ));
 
@@ -174,7 +173,7 @@ const AddNewCoinModal = ({ modalVisible, setModalVisible, selectedCurrency, disp
   const AnimationSelectExchangeRef = useRef(null)
   const AnimationPriceRef = useRef(null)
 
-
+  const notification = useNotification();
 
   const resetModal = () => {
     setModalVisible(false);
@@ -214,7 +213,6 @@ const AddNewCoinModal = ({ modalVisible, setModalVisible, selectedCurrency, disp
     if (alertPrice && value && valueExchange) {
 
 
-
       const extractedElement = suggestions.filter((item) => item.value == value)
 
       const newEntry = {
@@ -223,8 +221,35 @@ const AddNewCoinModal = ({ modalVisible, setModalVisible, selectedCurrency, disp
         iconlink: extractedElement[0].value.toLowerCase(),
         price: "$63000",
         pricechange: "%9.77%",
+        exchangename: valueExchange,
+        exchangelogo: exchangeSuggestions.map((item) => item.value === valueExchange)
       }
-      dispatchAddNewCard(myCoinData, newEntry, dispatch)
+
+      const tempNewData = [...myCoinData];
+
+      console.log(tempNewData.filter((e) => e.code === newEntry.code).length !== 0)
+      console.log(tempNewData.filter((e) => e.code === newEntry.code).length !== 0)
+      if (tempNewData.filter((e) => e.code === newEntry.code).length !== 0) {
+
+
+        notification.showNotification({
+          title: `${newEntry.code} is already tracked`,
+          message: 'Select a different currency to track.',
+          icon: < Image source={{ uri: `https://cryptoicon-api.vercel.app/api/icon/${(newEntry.code).toLowerCase()}` }} style={{ height: 40, width: 40 }} />,
+          onPress: () => {
+            alert('Pressed');
+          },
+        });
+
+      } else {
+        tempNewData.push(newEntry);
+        dispatchAddNewCard(tempNewData, dispatch)
+        resetModal()
+
+      }
+
+
+
 
     }
 
@@ -335,6 +360,7 @@ const AddNewCoinModal = ({ modalVisible, setModalVisible, selectedCurrency, disp
                   />
 
                 </StyledSearchContainer>
+
                 <StyledExchangeSearchContainer ref={AnimationSelectExchangeRef} style={{ zIndex: openExchange ? 1 : 0 }}>
 
                   <DropDownPicker

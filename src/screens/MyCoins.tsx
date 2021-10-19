@@ -4,6 +4,8 @@ import Card from "../components/Card";
 import styled from "styled-components/native";
 import { connect } from "react-redux";
 
+import { getPriceOfCurrency } from "../services/Services";
+
 const StyledRoot = styled.View`
   padding: 30px 15px;
   max-width: 100%;
@@ -22,6 +24,18 @@ type ItemProps = {
   pricechange: string;
 };
 
+class Coin {
+  public name: string;
+  public code: string;
+  public exchange: string;
+
+  constructor(theName: string, theCode: string, theExchange: string) {
+    this.name = theName;
+    this.code = theCode;
+    this.exchange = theExchange;
+  }
+}
+
 const Item = ({ title, code, price, pricechange, iconlink }: ItemProps) => {
   const iconLinkValue = `https://cryptoicon-api.vercel.app/api/icon/${iconlink}`;
   return (
@@ -37,15 +51,38 @@ const Item = ({ title, code, price, pricechange, iconlink }: ItemProps) => {
   );
 };
 
-const MyCoins = ({ navigation, route, myCoinData }) => {
+const MyCoins = ({
+  navigation,
+  route,
+  myCoinData,
+  globalCurrency,
+  dispatch,
+}) => {
   const [selectedId, setSelectedId] = useState(null);
+  const [selected, setSelected] = useState(null);
+  const [time, setTime] = useState(null);
+
   const [state, setState] = useState({
-    data: [],
+    data: [] as any,
+    priceArray: [] as any,
   });
 
   useEffect(() => {
-    setState({ data: myCoinData });
+    var priceCallArray = myCoinData.map(
+      (item: any) => new Coin(item.title, item.code, item.exchangename)
+    );
+
+    setState({ data: myCoinData, priceArray: priceCallArray });
   }, [myCoinData]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getPriceOfCurrency(state.priceArray, globalCurrency);
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [time]);
 
   const renderItem = ({ item }) => (
     <Item
@@ -56,6 +93,7 @@ const MyCoins = ({ navigation, route, myCoinData }) => {
       iconlink={item.iconlink}
     />
   );
+
   return (
     <StyledRoot>
       <SafeAreaView style={{ height: "100%" }}>
@@ -73,6 +111,7 @@ const MyCoins = ({ navigation, route, myCoinData }) => {
 function mapStateToProps(state) {
   return {
     myCoinData: state.currencyDataReducer.myCoinData,
+    globalCurrency: state.currencyDataReducer.globalCurrency,
   };
 }
 
